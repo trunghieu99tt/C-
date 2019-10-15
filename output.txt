@@ -1,0 +1,4 @@
+Tom is living in a country where everyone must pay tax for everything they buy. But one special thing is the way to calculate the tax that must be paid. For example: If you buy something costs x $ (x >= 2), you must pay the tax equals to the maximum divisors of x (of course, it's less than x) . Today, Tom found out the way to cheat, because the goverment doesn't care about things you bought but just the amount of money you spent. So he decided that he would divide x into smaller amount of money such as: x = n1 + n2 + n3 .... (ni >= 2). In this way, he will have to pay the taxes less. But problem comes because he's not only lazy but also not good at math. So he asks you to help him to determine the minimum money he must pay if he chooses the most optimal way to split x. Help him
+
+For example:
+
