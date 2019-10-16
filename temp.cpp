@@ -105,7 +105,42 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    cout << "Hello World!";
+    int n;
+    cin >> n;
+    vi a(n);
+    int i, j;
+    for (auto &i : a)
+        cin >> i;
+    gp_hash_table<int, int, custom_hash> cnt;
+    int ans = INT_MAX;
+    forn(i, n)
+    {
+        int flag = 1;
+        for (int j = 0; j < i; j++)
+        {
+            cnt[a[j]]++;
+            if (cnt[a[j]] > 1)
+            {
+                flag = 0;
+                break;
+            }
+        }
+        if (flag)
+        {
+            int right = n;
+            for (int j = n - 1; j >= i; j--)
+            {
+                cnt[a[j]]++;
+                if (cnt[a[j]] == 1)
+                    right = j;
+                else
+                    break;
+            }
+            ans = min(ans, right - i);
+        }
+        cnt.clear();
+    }
+    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
