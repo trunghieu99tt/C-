@@ -103,44 +103,52 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+string build(map<string, int> exist)
+{
+    for (auto i : exist)
+    {
+        string s = i.first;
+        if (s.back() == 'z')
+            s += 'a';
+        else
+            s += (s.back() + 1);
+        if (!exist[s])
+            return s;
+    }
+    return "A";
+}
+
 void trunghieu()
 {
-    int n;
-    cin >> n;
-    vi a(n);
-    int i, j;
+    int n, k;
+    cin >> n >> k;
+    vector<string> a(n - k + 1);
+    vector<string> ans(n, "");
+    map<string, int> exist;
     for (auto &i : a)
         cin >> i;
-    gp_hash_table<int, int, custom_hash> cnt;
-    int ans = INT_MAX;
-    forn(i, n)
+    int i, j;
+    forn(i, n - k + 1)
     {
-        int flag = 1;
-        for (int j = 0; j < i; j++)
+        if (a[i] == "NO")
         {
-            cnt[a[j]]++;
-            if (cnt[a[j]] > 1)
+            if (ans[i] == "")
             {
-                flag = 0;
-                break;
+                ans[i] = ans[i + k - 1] = build(exist);
+            }
+            else
+            {
+                ans[i + k - 1] = ans[i];
             }
         }
-        if (flag)
+        else
         {
-            int right = n;
-            for (int j = n - 1; j >= i; j--)
-            {
-                cnt[a[j]]++;
-                if (cnt[a[j]] == 1)
-                    right = j;
-                else
-                    break;
-            }
-            ans = min(ans, right - i);
+            ans[i] = build(exist);
         }
-        cnt.clear();
+        exist[ans[i]] = 1;
     }
-    cout << ans;
+    for (auto i : ans)
+        cout << i << " ";
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
