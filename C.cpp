@@ -103,52 +103,59 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
-string s;
-map<char, vi> index;
+const int maxn = 5e4 + 5;
 
-bool check(string t)
+typedef tuple<int, int, int> point;
+
+vector<pair<double, int>> d[maxn];
+queue<int> q[maxn];
+
+double dis(point a, point b)
 {
-    if (t.size() > s.size())
-        return 0;
-    int prevID = -1;
-    for (auto i : t)
-    {
-        vi x = index[i];
-        int id = upper_bound(all(x), prevID) - begin(x);
-        if (id >= x.size())
-            return 0;
-        prevID = x[id];
-    }
-    return 1;
+    int x1, y1, z1, x2, y2, z2;
+    tie(x1, y1, z1) = a;
+    tie(x2, y2, z2) = b;
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2) + pow(z2 - z1, 2));
 }
 
 void trunghieu()
 {
-    cin >> s;
-    vector<int> x;
-    int num = 8;
-    int mul = 0;
-    while (num < 1e3)
-    {
-        num = 8 * mul;
-        x.emplace_back(num);
-        mul++;
-    }
-    int i, n = s.size();
+    int n;
+    cin >> n;
+    vector<point> p;
+    map<point, int> index;
+    int i, j;
     forn(i, n)
-        index[s[i]]
-            .eb(i);
-    for (auto i : x)
     {
-        string t = to_string(i);
-        if (check(t))
+        int x, y, z;
+        cin >> x >> y >> z;
+        p.emplace_back(x, y, z);
+        index[make_tuple(x, y, z)] = i;
+    }
+    vi visited(n, 0);
+    sort(all(p), [](point a, point b) {
+        return get<0>(a) < get<0>(b) || get<0>(a) == get<0>(b) && get<1>(a) < get<1>(b) || get<0>(a) == get<0>(b) && get<1>(a) == get<1>(b) && get<2>(a) < get<2>(b);
+    });
+    forn(i, n)
+    {
+        for (j = i + 1; j < n; j++)
+            d[i].emplace_back(dis(p[i], p[j]), j);
+        sort(all(d[i]));
+        for (auto j : d[i])
+            q[i].push(j.second);
+    }
+    forn(i, n)
+    {
+        if (!visited[i])
         {
-            cout << "YES\n";
-            cout << t;
-            return;
+            while (!q[i].empty() && visited[q[i].front()])
+                q[i].pop();
+            auto u = q[i].front();
+            q[i].pop();
+            visited[u] = 1;
+            cout << index[p[i]] + 1 << " " << index[p[u]] + 1 << endl;
         }
     }
-    cout << "NO";
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

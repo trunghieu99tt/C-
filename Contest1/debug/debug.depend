@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1571243739 source:d:\source code\c++\contest1\debug\main.cpp
+	<bits/stdc++.h>
+	<ext/pb_ds/assoc_container.hpp>
+	<ext/pb_ds/trie_policy.hpp>
+	<ext/pb_ds/tag_and_trait.hpp>
+
