@@ -106,9 +106,7 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    int n, m;
-    cin >> n >> m;
-    cout << binPow(binPow(2, m) - 1, n) % MOD;
+    
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
