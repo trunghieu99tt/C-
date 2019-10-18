@@ -67,7 +67,8 @@ struct custom_hash
 typedef trie<string, null_type, trie_string_access_traits<>, pat_trie_tag, trie_prefix_search_node_update> u_trie;
 
 // Set up Red-Black Tree
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> rb_tree;
+template <typename T>
+using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 /*-----------------------------------USEFUL FUNCS -----------------------------------------------*/
 
@@ -96,59 +97,18 @@ ll C(ll k, ll n)
 
 /* Extend Euclid: ax + by = c;
 ll x, y;
-
+ 
 void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b);ll x1 = y, y1 = x - (a/b) * y;x = x1;y = y1;}
 // nghiem : x + (b/d)*k, y - (a/d) * k;
 */
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
-string s;
-map<char, vi> index;
-
-bool check(string t)
-{
-    if (t.size() > s.size())
-        return 0;
-    int prevID = -1;
-    for (auto i : t)
-    {
-        vi x = index[i];
-        int id = upper_bound(all(x), prevID) - begin(x);
-        if (id >= x.size())
-            return 0;
-        prevID = x[id];
-    }
-    return 1;
-}
-
 void trunghieu()
 {
-    cin >> s;
-    vector<int> x;
-    int num = 8;
-    int mul = 0;
-    while (num < 1e3)
-    {
-        num = 8 * mul;
-        x.emplace_back(num);
-        mul++;
-    }
-    int i, n = s.size();
-    forn(i, n)
-        index[s[i]]
-            .eb(i);
-    for (auto i : x)
-    {
-        string t = to_string(i);
-        if (check(t))
-        {
-            cout << "YES\n";
-            cout << t;
-            return;
-        }
-    }
-    cout << "NO";
+    int n, m;
+    cin >> n >> m;
+    cout << binPow(binPow(2, m) - 1, n) % MOD;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

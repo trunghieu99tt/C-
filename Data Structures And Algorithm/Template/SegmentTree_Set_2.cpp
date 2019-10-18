@@ -1,61 +1,63 @@
 // Lazy
 
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
+struct node
+{
+	int ll, rr, id;
 
-#define ff first;
-#define ss second;
-
-typedef pair<int,int> pii;
-
-vector<pii> t;
-vector<int> a;
-
-void push(int v){
-	t[2 * v].ff += t[v].ss;
-	t[2 * v + 1].ff += t[v].ss;
-	t[v].ss = 0;
-}
-
-
-void modify(int v, int l, int r, int ql, int qr,int x){
-	t[v].ff += x * (qr - ql);
-	if(l == ql && r == qr)
+	node(int L, int R, int X)
 	{
-		t[v].ss+=x;
-		return;
+		ll = L, rr = R, id = X;
+		lazy_update();
 	}
-	int mid = (l + r)>>1;
-	if(qr <= mid)
-		modify(2 * v, l, mid, ql, qr, x);
-	else if modify(2 * v + 1, mid + 1, r, ql,qr,x);
-	else{
-		modify(2 * v, l, mid, ql, mid, x);
-		modify(2 * v + 1, mid, r, mid , qr, x);
+
+	node left()
+	{
+		return node(ll, (ll + rr) / 2, id * 2);
 	}
-}
+	node right()
+	{
+		return node((ll + rr) / 2 + 1, rr, id * 2 + 1);
+	}
 
-// Tính tổng trên đoạn [ql,qr] thuộc cây con đỉnh v quản lí đoạn [l,r]
+	void lazy_update()
+	{
+		if (Lazy[id] == -1)
+			return; // assume that -1 is unused value
+		if (ll != rr)
+			Lazy[id * 2] = Lazy[id * 2 + 1] = Lazy[id];
+		Max[id] = Lazy[id];
+		Lazy[id] = -1;
+	}
 
-int get(int v, int l,int r, int ql, int qr){
-	if(l > qr || r < ql)
-		return 0;
-	push(v);
-	if(ql <= l && r <= qr)
-		return t[v].ff;
-	int mid = (l + r) >> 1;
-	return get(v * 2, l, mid , ql, qr) + get(v * 2 + 1, mid + 1, r , ql, qr);
-}
+	void assign_range(int L, int R, int X)
+	{ // don't need to call lazy_update() at the beginning
+		if (ll > R || L > rr)
+			return;
+		if (L <= ll && rr <= R)
+		{
+			Lazy[id] = X;
+			lazy_update();
+			return;
+		}
+		left().assign_range(L, R, X); // easier to read
+		right().assign_range(L, R, X);
+		Max[id] = max(Max[id * 2], Max[id * 2 + 1]);
+	}
 
-// Phép cập nhật: tăng giá trị các phần tử trên đoạn.
-// Đoạn cập nhật: [ql,qr];
-// Giá trị cập nhật : x
-
-void update(int v, int l, int r, int ql, int qr, int x){
-	if(l == )
-}
-
+	int max_range(int L, int R)
+	{
+		if (ll > R || L > rr)
+			return -oo;
+		if (L <= ll && rr <= R)
+			return Max[id];
+		int Max1 = left().max_range(L, R);
+		int Max2 = right().max_range(L, R);
+		return max(Max1, Max2);
+	}
+};
 int main()
 {
 
