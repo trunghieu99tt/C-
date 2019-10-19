@@ -3,6 +3,9 @@
         "iostream": "cpp",
         "tuple": "cpp",
         "bitset": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "xstddef": "cpp",
+        "ios": "cpp",
+        "xiosbase": "cpp"
     }
 }

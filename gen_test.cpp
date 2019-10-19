@@ -104,61 +104,12 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
-const int maxn = 2e5 + 5;
-
-vector<int> edge[maxn];
-vector<int> visited(maxn);
-vector<int> color(maxn);
-vector<int> usedColor[maxn];
-vector<int> parentColor(maxn);
-
 void trunghieu()
 {
-    int n;
-    cin >> n;
-    for (int x = 0; x < n - 1; x++)
-    {
-        int u, v;
-        cin >> u >> v;
-        edge[u].eb(v);
-        edge[v].eb(u);
-    }
-    int i, j;
-    for1(i, n)
-    {
-        if (!visited[i] && edge[i].size() > 1)
-        {
-            queue<int> q;
-            q.push(i);
-            color[i] = 1;
-            visited[i] = 1;
-            while (!q.empty())
-            {
-                int u = q.front();
-                q.pop();
-                int c = 1;
-                for (auto v : edge[u])
-                {
-                    if (!visited[v])
-                    {
-                        if (c == parentColor[u] || c == color[u])
-                            c++;
-                        color[v] = c++;
-                        visited[v] = 1;
-                        q.push(v);
-                        parentColor[v] = color[u];
-                    }
-                }
-            }
-        }
-    }
-    set<int> ans;
-    for1(i, n)
-        ans.insert(color[i]);
-    cout << ans.size() << endl;
-    for1(i, n)
-            cout
-        << color[i] << " ";
+    cout << 1 << endl
+         << 60 << endl;
+    for (int i = 1; i <= 60; i++)
+        cout << "10000 ";
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -168,8 +119,8 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    //freopen("output.txt","w",stdout);
+    //freopen("input.txt", "r", stdin);
+    freopen("input.txt", "w", stdout);
 #endif
     trunghieu();
     return 0;
