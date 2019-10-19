@@ -106,28 +106,18 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    int n, d;
-    cin >> n >> d;
-    vi a(n);
-    int i, j;
-    for (auto &i : a)
-        cin >> i;
-    ll ans = 0;
-    int prev = -1;
-    forn(j, n - 2)
+    int n, m;
+    cin >> n >> m;
+    cout << "[";
+    for (int i = 0; i < n; i++)
     {
-        i = a[j];
-        int index = lower_bound(all(a), i + d) - begin(a);
-        if (index >= a.size() || a[index] > i + d)
-            index--;
-        if (index > prev)
-        {
-            if (index - j >= 2)
-                ans += C(2, index - j);
-            prev = index;
-        }
+        int num;
+        cin >> num;
+        if (i != n - 1)
+            cout << num << ",";
+        else
+            cout << num << "]";
     }
-    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -138,7 +128,7 @@ int main()
     cin.tie();
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
-    //freopen("output.txt","w",stdout);
+    freopen("output.txt", "w", stdout);
 #endif
     trunghieu();
     return 0;
