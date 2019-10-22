@@ -106,18 +106,9 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    int n, m;
-    cin >> n >> m;
-    cout << "[";
-    for (int i = 0; i < n; i++)
-    {
-        int num;
-        cin >> num;
-        if (i != n - 1)
-            cout << num << ",";
-        else
-            cout << num << "]";
-    }
+    cout << 100 << endl;
+    for (int i = 1; i <= 100; i++)
+        cout << 1000000 << endl;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -127,8 +118,8 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    //freopen("input.txt", "r", stdin);
+    freopen("input.txt", "w", stdout);
 #endif
     trunghieu();
     return 0;

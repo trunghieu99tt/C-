@@ -6,6 +6,7 @@
         "set": "cpp",
         "xstddef": "cpp",
         "ios": "cpp",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "ostream": "cpp"
     }
 }
