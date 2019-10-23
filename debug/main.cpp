@@ -85,7 +85,7 @@ ll binPow(ll a, ll b)
     while (b)
     {
         if (b & 1)
-            x = (x * y) % MOD;
+        { x = (x * y) % MOD; }
         y = (y * y) % MOD;
         b >>= 1;
     }
@@ -98,24 +98,57 @@ ll C(ll k, ll n)
 {
     vll f(n + 1, 1);
     for (ll i = 2; i <= n; i++)
-        f[i] = (f[i - 1] * i) % MOD;
+    { f[i] = (f[i - 1] * i) % MOD; }
     return (f[n] * ((inverserEuler(f[k]) * inverserEuler(f[n - k])) % MOD) % MOD) % MOD;
 }
 
-/* Extend Euclid: ax + by = c;
-ll x, y;
+/*  Extend Euclid: ax + by = c;
+    ll x, y;
 
-void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b);ll x1 = y, y1 = x - (a/b) * y;x = x1;y = y1;}
-// nghiem : x + (b/d)*k, y - (a/d) * k;
+    void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b);ll x1 = y, y1 = x - (a/b) * y;x = x1;y = y1;}
+    // nghiem : x + (b/d)*k, y - (a/d) * k;
 */
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
 void trunghieu()
 {
-    cout << 1000 << endl;
-    for (int i = 1; i <= 1000; i++)
-        cout << i << endl;
+    int n;
+    cin >> n;
+    vi a(n);
+    int i, j, ans = 0;
+    for (auto &i : a)
+    { cin >> i; }
+    sort(all(a), greater<int>());
+    int flag = 0;
+    while (!a.empty() && a.back() == 0)
+    { ans++, a.pop_back(), flag = 1; }
+    if (flag)
+    { a.eb(0), ans--; }
+    for (auto i : a)
+    { cout << i << " "; }
+    cout << endl;
+    cout << ans << endl;
+    i = 0;
+    n = a.size();
+    while (i < n)
+    {
+        int x = a[i], b = i;
+        cout << i << " " << a[i] << " " << x << endl;
+        while (i < n)
+        {
+            cout << i << " "
+                 << " " << a[i] << " " << i + a[i] << " " << b + x << endl;
+            j = min({n - 1,i +  a[i], b + x}) - i;
+            if (j <= 0)
+            { break; }
+            x--;
+            i++;
+        }
+        cout << i << " " << a[i] << endl;
+        ans++;
+    }
+    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -125,8 +158,8 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    freopen("input.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    //freopen("output.txt","w",stdout);
 #endif
     trunghieu();
     return 0;

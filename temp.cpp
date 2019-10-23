@@ -63,6 +63,13 @@ struct custom_hash
     }
 };
 
+// using pair as key
+
+struct chash_key
+{
+    int operator()(pii x) const { return x.first * 31 + x.second; }
+};
+
 // Set up trie
 typedef trie<string, null_type, trie_string_access_traits<>, pat_trie_tag, trie_prefix_search_node_update> u_trie;
 
@@ -106,11 +113,37 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    vi a = vector<int>{1, 2, 3, 4, 1, 2, 3, 4, 1};
-    set<int> ans;
-    copy(all(a), inserter(ans));
-    for (auto i : ans)
-        cout << i << " ";
+    int n;
+    cin >> n;
+    vi a(n);
+    int i, j, ans = 0;
+    for (auto &i : a)
+        cin >> i;
+    sort(all(a), greater<int>());
+    int flag = 0;
+    while (!a.empty() && a.back() == 0)
+        ans++, a.pop_back(), flag = 1;
+    if (flag)
+        a.eb(0), ans--;
+    i = 0;
+    n = a.size();
+    while (i < n)
+    {
+        int x = a[i];
+        int y = i;
+        cout << i << " " << a[i] << " " << x << " " << y << " " << x + y << endl;
+        while (i < n)
+        {
+            j = min({n - 1, i + a[i], x + y - 1}) - i;
+            if (j <= 0)
+                break;
+            x--;
+            i++;
+        }
+        i++;
+        ans++;
+    }
+    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
