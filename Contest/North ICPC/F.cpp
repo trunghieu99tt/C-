@@ -6,11 +6,6 @@
 using namespace __gnu_pbds;
 using namespace std;
 
-/*--------------------------------- RANDOM -----------------------------------------*/
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-// use shuffle(all(x), rng)
-
 /*--------------------------------- USER'S DEFINE -----------------------------------------*/
 
 #define forn(i, n) for (i = 0; i < n; ++i)
@@ -21,7 +16,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 /*--------------------------------- USER'S TYPEDEF -----------------------------------------*/
 
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
@@ -44,10 +39,10 @@ ll MUL = (int)1e6 + 3;
 //};
 
 // Option 2
-struct chash
-{
-    int operator()(int x) const { return x ^ RANDOM; }
-};
+// struct chash
+// {
+//     int operator()(int x) const { return x ^ RANDOM; }
+// };
 
 // Option 3 (fastest)
 struct custom_hash
@@ -68,19 +63,21 @@ struct custom_hash
     }
 };
 
-// using pair as key
+// Pair as key
 
-struct chash_key
+struct chash
 {
-    int operator()(pii x) const { return x.first * 31 + x.second; }
+    int operator()(pair<int, int> x) const
+    {
+        return x.first * 31 + x.second;
+    }
 };
 
 // Set up trie
 typedef trie<string, null_type, trie_string_access_traits<>, pat_trie_tag, trie_prefix_search_node_update> u_trie;
 
 // Set up Red-Black Tree
-template <typename T>
-using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> rb_tree;
 
 /*-----------------------------------USEFUL FUNCS -----------------------------------------------*/
 
@@ -116,35 +113,73 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+const int maxn = 305;
+
+vector<pair<int, ll>> adjList[maxn];
+
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int n, m;
+    cin >> n >> m;
+    int i, j;
+    vector<tuple<int, int, ll>> edge;
+    forn(i, m)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
+        int u, v;
+        ll c;
+        cin >> u >> v >> c;
+        if (v < u)
+            swap(u, v);
+        edge.emplace_back(u, v, c);
+        adjList[u].emplace_back(v, c);
+        adjList[v].emplace_back(u, c);
+    }
+    vector<vector<ll>> dis(n + 1, vector<ll>(n + 1, LLONG_MAX));
+    gp_hash_table<int, int, custom_hash> visited;
+    for (auto i : edge)
+    {
+        int u, v;
+        ll c;
+        tie(u, v, c) = i;
+        if (c > dis[u][v])
             continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        for (int j = 1; j <= n; j++)
         {
-            if (r >= s)
+            queue<tuple<int, int, int>> q;
+            // vertex, cntEdge, visitedEdge
+            q.push(make_tuple(j, 0, 0));
+            visited.clear();
+            visited[j] = 1;
+            while (!q.empty())
             {
-                cout << r - s << endl;
-                return;
+                auto o = q.front();
+                q.pop();
+                int x, y, z;
+                tie(x, y, z) = o;
+                for (auto e : adjList[x])
+                {
+                    if (!visited[e.first] && e.second >= c)
+                    {
+                        visited[e.first] = 1;
+                        if ((x == u && e.first == v))
+                            z = 1;
+                        if (z == 1)
+                            dis[j][e.first] = (y + 1) * c;
+                        q.push(make_tuple(e.first, y + 1, z));
+                    }
+                }
             }
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
+    ll res = 0;
+    for (int i = 1; i <= n; i++)
+        for (int j = i + 1; j <= n; j++)
+            res += dis[i][j];
+    string ans = to_string(res);
+    if (ans.size() <= 9)
+        cout << ans;
+    else
+        cout << ans.substr(ans.size() - 9);
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -154,7 +189,7 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
+    //freopen("input.txt", "r", stdin);
     //freopen("output.txt","w",stdout);
 #endif
     trunghieu();

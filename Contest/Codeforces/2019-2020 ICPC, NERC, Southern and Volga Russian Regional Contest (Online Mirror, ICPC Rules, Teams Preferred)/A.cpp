@@ -118,33 +118,44 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int n, m;
+    cin >> n >> m;
+    vi post(n + 1);
+    vi maxPos(n + 1, 0);
+    vi minPos(n + 1, n + 1);
+    vi like(m);
+    vi currPosition(n + 1);
+    vi currPost(n + 1);
+    int i, j;
+    forn(i, n)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        post[i + 1] = i + 1;
+        currPost[i + 1] = i + 1;
+        currPosition[i + 1] = i + 1;
+        maxPos[i + 1] = i + 1;
+        minPos[i + 1] = i + 1;
+    }
+    for (auto &i : like)
+    {
+        cin >> i;
+        maxPos[i] = max(maxPos[i], currPosition[i]);
+        minPos[i] = min(minPos[i], currPosition[i]);
+        if (currPosition[i] > 1)
         {
-            if (r >= s)
-            {
-                cout << r - s << endl;
-                return;
-            }
+            currPosition[currPost[currPosition[i] - 1]]++;
+            maxPos[currPost[currPosition[i] - 1]] = max(maxPos[currPost[currPosition[i] - 1]], currPosition[currPost[currPosition[i] - 1]]);
+            minPos[currPost[currPosition[i] - 1]] = min(minPos[currPost[currPosition[i] - 1]], currPosition[currPost[currPosition[i] - 1]]);
+            currPost[currPosition[i]] = currPost[currPosition[i] - 1];
+            currPost[currPosition[i] - 1] = i;
+            currPosition[i]--;
+            maxPos[i] = max(maxPos[i], currPosition[i]);
+            minPos[i] = min(minPos[i], currPosition[i]);
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
+    for1(i, n)
+    {
+        cout << minPos[i] << " " << maxPos[i] << endl;
+    }
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

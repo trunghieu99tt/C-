@@ -118,33 +118,44 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        vector<pii> digits(10);
+        int i, j, flag = 0, ans = INT_MAX;
+        forn(i, 10)
         {
-            if (r >= s)
+            cin >> digits[i].first;
+            digits[i].second = i;
+            if (i > 0 && digits[i].first == 0)
             {
-                cout << r - s << endl;
-                return;
+                ans = min(ans, i);
+                flag = 1;
+            }
+        }
+        if (flag)
+            cout << ans << endl;
+        else
+        {
+            sort(all(digits));
+            if (digits[0].second == 0)
+            {
+                string a = "1" + string(digits[0].first + 1, '0');
+                string b = string(digits[1].first + 1, digits[1].second + '0');
+                if (a.size() < b.size())
+                    cout << a << endl;
+                else if (a.size() > b.size())
+                    cout << b << endl;
+                else
+                    cout << min(a, b) << endl;
+            }
+            else
+            {
+                cout << string(digits[0].first + 1, digits[0].second + '0') << endl;
             }
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

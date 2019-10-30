@@ -118,33 +118,68 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int n, k;
+    cin >> n >> k;
+    vi a(n);
+    gp_hash_table<int, int, custom_hash> cnt;
+    for (auto &i : a)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        cin >> i;
+        cnt[i]++;
+    }
+    int i, j;
+    vi teams(k);
+    forn(i, k)
+        teams[i] = cnt[i + 1];
+    sort(all(teams));
+    int sum = 0;
+    forn(i, k / 2)
+    {
+        sum = max(sum, teams[i] + teams[k - i - 1]);
+    }
+    if (k % 2)
+        sum = max(sum, teams[k / 2]);
+    ll ans = INT_MAX;
+    for (int i = sum; i >= 1; i--)
+    {
+        int l = 0, r = k - 1;
+        int x = 0, flag = 1;
+        while (l <= r)
         {
-            if (r >= s)
+            if (teams[l] > i || teams[r] > i)
             {
-                cout << r - s << endl;
-                return;
+                flag = 0;
+                break;
+            }
+            if (l != r)
+            {
+                if (teams[l] + teams[r] <= i)
+                {
+                    x++;
+                    l++;
+                    r--;
+                }
+                else
+                    r--, x++;
+            }
+            else
+            {
+                if (teams[l] <= i)
+                {
+                    x++;
+                    break;
+                }
+                else
+                {
+                    flag = 0;
+                    break;
+                }
             }
         }
+        if (flag)
+            ans = min(ans, 1LL * i * x);
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
+    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

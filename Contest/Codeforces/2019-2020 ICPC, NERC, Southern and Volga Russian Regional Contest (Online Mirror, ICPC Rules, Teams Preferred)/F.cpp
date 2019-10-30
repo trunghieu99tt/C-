@@ -118,33 +118,17 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int n;
+    cin >> n;
+    int ans = INT_MAX;
+    for (int i = 1; i * i <= n; i++)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        if (n % i == 0)
         {
-            if (r >= s)
-            {
-                cout << r - s << endl;
-                return;
-            }
+            ans = min(ans, i * 2 + 2 * n / i);
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
+    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

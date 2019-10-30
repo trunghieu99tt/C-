@@ -118,33 +118,48 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
-        {
-            if (r >= s)
+        int n;
+        ll k;
+        cin >> n >> k;
+        vll c(n);
+        int i, j;
+        for (auto &i : c)
+            cin >> i;
+        ll lo = 1, hi = 1e18;
+        ll ans = 0;
+
+        auto checker = [](ll mid, vll x, ll k) -> bool {
+            ll ans = x[0] / mid;
+            ll rem = x[0] % mid;
+            for (int i = 1; i < x.size(); i++)
             {
-                cout << r - s << endl;
-                return;
+                ll add = (x[i] + rem) / mid;
+                ans += add;
+                if (x[i] + rem < mid)
+                    rem = x[i];
+                else
+                    rem = (x[i] + rem) % mid;
             }
+            return ans >= k;
+        };
+
+        while (lo <= hi)
+        {
+            ll mid = (lo + hi) >> 1;
+            if (checker(mid, c, k))
+            {
+                ans = mid * k;
+                lo = mid + 1;
+            }
+            else
+                hi = mid - 1;
         }
+        cout << ans << endl;
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

@@ -118,33 +118,63 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        int n;
+        ll k;
+        cin >> n >> k;
+        vll c(n);
+        int i, j;
+        for (auto &i : c)
+            cin >> i;
+        ll lo = 0, hi = 1e15;
+        ll ans = 0;
+        while (lo <= hi)
         {
-            if (r >= s)
+            ll mid = (lo + hi) >> 1;
+            int flag = 1, r = 0;
+            auto temp = c;
+            i = 0;
+            while (i < n && r < k)
             {
-                cout << r - s << endl;
-                return;
+                while (temp[i] < mid && i < n - 1 && temp[i] + temp[i + 1] < mid)
+                    i++;
+                if (i >= n)
+                    break;
+                whatIs(i);
+                if (temp[i] >= mid)
+                {
+                    int add = temp[i] / mid;
+                    r += add;
+                    temp[i] -= r * add;
+                }
+                i++;
+                if (i >= n)
+                    break;
+                int f = 0;
+                while (i < n - 1 && temp[i] + temp[i + 1] >= mid)
+                {
+                    f = 1;
+                    ll re = mid - temp[i];
+                    i++;
+                    temp[i] -= re;
+                    r++;
+                }
+                if (!f)
+                    break;
             }
+            if (r == k)
+            {
+                ans = mid * k;
+                lo = mid + 1;
+            }
+            else
+                hi = mid - 1;
         }
+        cout << ans << endl;
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

@@ -116,35 +116,45 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+const double inf = 1e9;
+
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
-    {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+    int n;
+        cout << setprecision(1) << fixed;
+        cin >> n;
+        vector<pair<ll, ll>> lands(n);
+        ll ans = 0;
+        for (auto &i : lands)
         {
-            if (r >= s)
-            {
-                cout << r - s << endl;
-                return;
-            }
+            cin >> i.first >> i.second;
+            if (i.second < i.first)
+                swap(i.first, i.second);
+            ans = max(ans, i.first * i.second);
         }
-    }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
+        ll ans1 = 0;
+        sort(all(lands), [](pair<ll, ll> a, pair<ll, ll> b) {
+            return a.first > b.first ||
+                   a.first == b.first && a.second > b.second;
+        });
+        vll maxW(n + 1, 0);
+        maxW[0] = lands[0].second;
+        int i,j;
+        for1(i,n - 1){
+           maxW[i] = max(lands[i].second, maxW[i-1]),
+            ans1 = max(ans1, lands[i].first * maxW[i-1]);
+        }
+        if(ans1 < ans){
+            if(ans%2 == 0){
+                cout<<ans/2;
+            } else cout<<ans/2<<".5";
+        } else
+        {
+            if(ans%2 == 0){
+                cout<<ans1/2;
+            }
+            else cout<<ans1/2<<".5";
+        }
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

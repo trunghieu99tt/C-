@@ -116,35 +116,43 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+const double inf = 1e9;
+
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        int n;
+        cout << setprecision(1) << fixed;
+        cin >> n;
+        vector<pair<double, double>> lands(n);
+        double ans = 0;
+        for (auto &i : lands)
         {
-            if (r >= s)
+            cin >> i.first >> i.second;
+            if (i.second > i.first)
+                swap(i.first, i.second);
+            ans = max(ans, i.first / 2 * i.second);
+        }
+        sort(all(lands), [](pair<double, double> a, pair<double, double> b) {
+            return a.first < b.first ||
+                   a.first == b.first && a.second > b.second;
+        });
+        int i, j;
+        forn(i, n)
+        {
+            forn(j, n)
             {
-                cout << r - s << endl;
-                return;
+                if (i != j)
+                {
+                    ans = max(ans, min(lands[i].first, lands[j].first) * min(lands[i].second, lands[j].second));
+                }
             }
         }
+        cout << ans << endl;
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

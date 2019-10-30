@@ -116,35 +116,50 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+const int maxn = 1e5 + 5;
+
+gp_hash_table<pii, int, chash_key> group, visited;
+
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
-    {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
-        {
-            if (r >= s)
-            {
-                cout << r - s << endl;
-                return;
-            }
+    int n, t;
+    cin >> n >> t;
+    vi r(n), c(n);
+    int i, j;
+    forn(i, n)
+            cin >>
+        r[i];
+    forn(i, n)
+            cin >>
+        c[i];
+    vector<int> pR(n + 1, 0), pC(n + 1 , 0);
+    for1(i,n){
+        pR[i] = pR[i-1];
+        pC[i] = pC[i-1];
+        if(r[i-1]%2 ==0)
+            pR[i]++;
+        if(c[i-1]%2 == 0)
+            pC[i]++;
+    }
+
+    auto checker = [=](int a, int b, int c, int d)->bool{
+        int m1 = max(a,b), m11 = min(a,b),
+            m2 = max(c,d), m22 = min(c,d);
+        return (pR[m1] - pR[m11-1] == (m1 - m11 + 1)
+        || pR[m1] == pR[m11-1])
+        && (pC[m2] - pC[m22-1] == (m2 - m22 + 1)
+        || pC[m2] == pC[m22-1]);
+    };
+
+    while(t--){
+        int r1, c1, r2, c2;
+        cin>>r1>>c1>>r2>>c2;
+        if(checker(r1,r2,c1,c2)){
+            cout<<"YES\n";
+        } else {
+            cout<<"NO\n";
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

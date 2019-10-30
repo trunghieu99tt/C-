@@ -116,35 +116,81 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+gp_hash_table<int, vi, custom_hash> adjList;
+gp_hash_table<pii, int, chash_key> index;
+gp_hash_table<int, int, custom_hash> parent, visited;
+set<int> vertex;
 void trunghieu()
 {
-<<<<<<< HEAD
-    int d, r, t;
-    cin >> d >> r >> t;
-    int i;
-    for (int x = 4; x <= 1000; x++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int s = (x - 3) * (x + 4);
-        if (s % 2 != 0)
-            continue;
-        int y = x - d;
-        int s1 = (y - 2) * (y + 3);
-        if (s1 % 2 != 0)
-            continue;
-        s /= 2;
-        s1 /= 2;
-        if ((s + s1) == (r + t))
+        int n;
+        cin >> n;
+        visited.clear();
+        adjList.clear();
+        index.clear();
+        vertex.clear();
+        int i, j;
+        forn(i, n)
         {
-            if (r >= s)
+            int u, v;
+            cin >> u >> v;
+            if (!index[{u, v}])
             {
-                cout << r - s << endl;
-                return;
+                adjList[u].eb(v);
+                adjList[v].eb(u);
+                index[{u, v}] = i + 1;
+                index[{v, u}] = i + 1;
+                vertex.insert(u);
+                vertex.insert(v);
+            }
+        }
+        vi lastV;
+        for (auto i : vertex)
+        {
+            if (!visited[i])
+            {
+                queue<int> q;
+                q.push(i);
+                visited[i] = 1;
+                parent[i] = i;
+                int last = i;
+                while (!q.empty())
+                {
+                    auto u = q.front();
+                    q.pop();
+                    for (auto v : adjList[u])
+                    {
+                        if (!visited[v])
+                        {
+                            q.push(v);
+                            visited[v] = 1;
+                            parent[v] = u;
+                            last = v;
+                        }
+                    }
+                }
+                if (last != i)
+                    lastV.eb(last);
+            }
+        }
+        if (lastV.size() <= 1)
+        {
+            cout << 0 << endl;
+        }
+        else
+        {
+            cout << lastV.size() - 1 << endl;
+            int u = lastV[0];
+            for1(i, int(lastV.size()) - 1)
+            {
+                int v = parent[lastV[i]];
+                cout << index[{v, lastV[i]}] << " " << lastV[i] << " " << u << endl;
             }
         }
     }
-=======
-    
->>>>>>> dd0d66c6d7ca2af224d6bc0565dddddd8ccf1c79
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
