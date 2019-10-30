@@ -6,6 +6,11 @@
 using namespace __gnu_pbds;
 using namespace std;
 
+/*--------------------------------- RANDOM -----------------------------------------*/
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+// use shuffle(all(x), rng)
+
 /*--------------------------------- USER'S DEFINE -----------------------------------------*/
 
 #define forn(i, n) for (i = 0; i < n; ++i)
@@ -113,9 +118,34 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    cout << 1000 << endl;
-    for (int i = 1; i <= 1000; i++)
-        cout << i << endl;
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        vector<int> digits(10);
+        int i, j, ans = INT_MAX;
+        forn(i, 10)
+                cin >>
+            digits[i];
+        int num = 1, flag = 0;
+        while (!flag)
+        {
+            int t = num;
+            vi cnt(10, 0);
+            while (t)
+            {
+                cnt[t % 10]++;
+                if (cnt[t % 10] > digits[t % 10])
+                {
+                    cout << num << endl;
+                    flag = 1;
+                    break;
+                }
+                t /= 10;
+            }
+            num++;
+        }
+    }
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
@@ -125,8 +155,8 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    freopen("input.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    //freopen("output.txt","w",stdout);
 #endif
     trunghieu();
     return 0;

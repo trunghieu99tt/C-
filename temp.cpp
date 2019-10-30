@@ -6,6 +6,11 @@
 using namespace __gnu_pbds;
 using namespace std;
 
+/*--------------------------------- RANDOM -----------------------------------------*/
+
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+// use shuffle(all(x), rng)
+
 /*--------------------------------- USER'S DEFINE -----------------------------------------*/
 
 #define forn(i, n) for (i = 0; i < n; ++i)
@@ -113,37 +118,29 @@ void extendEuclid(ll a, ll b){if(b == 0){x = 1;y = 0;return;}extendEuclid(b,a%b)
 
 void trunghieu()
 {
-    int n;
-    cin >> n;
-    vi a(n);
-    int i, j, ans = 0;
-    for (auto &i : a)
-        cin >> i;
-    sort(all(a), greater<int>());
-    int flag = 0;
-    while (!a.empty() && a.back() == 0)
-        ans++, a.pop_back(), flag = 1;
-    if (flag)
-        a.eb(0), ans--;
-    i = 0;
-    n = a.size();
-    while (i < n)
+    int d, r, t;
+    cin >> d >> r >> t;
+    int i;
+    for (int x = 4; x <= 1000; x++)
     {
-        int x = a[i];
-        int y = i;
-        cout << i << " " << a[i] << " " << x << " " << y << " " << x + y << endl;
-        while (i < n)
+        int s = (x - 3) * (x + 4);
+        if (s % 2 != 0)
+            continue;
+        int y = x - d;
+        int s1 = (y - 2) * (y + 3);
+        if (s1 % 2 != 0)
+            continue;
+        s /= 2;
+        s1 /= 2;
+        if ((s + s1) == (r + t))
         {
-            j = min({n - 1, i + a[i], x + y - 1}) - i;
-            if (j <= 0)
-                break;
-            x--;
-            i++;
+            if (r >= s)
+            {
+                cout << r - s << endl;
+                return;
+            }
         }
-        i++;
-        ans++;
     }
-    cout << ans;
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
