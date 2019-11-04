@@ -1,0 +1,27 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int test,k;
+	cin>>test;
+	for (k=1;k<=test;k++)
+	{
+		int testcase;
+		cin>>testcase;
+		string s;
+		cin>>s;
+		std::vector<int> v;
+		for (auto i:s)
+			v.push_back(i-'0');
+		if(next_permutation(v.begin(),v.end())==false) cout<<testcase<<" BIGGEST"<<endl;
+		else
+		{
+			string result="";
+			for(auto i:v)
+				result+=(i+'0');
+			cout<<testcase<<" "<<result<<endl;
+		}
+	}
+}
