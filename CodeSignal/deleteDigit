@@ -1,0 +1,11 @@
+int deleteDigit(int n) {
+    int max=0,i;
+    string s=to_string(n);
+    for (i=0;i<s.length();i++)
+    {
+        auto s1=s;
+        s1.erase(s1.begin()+i,s1.begin()+i+1);
+        if(stoi(s1,nullptr,10)>max) max=stoi(s1,nullptr,10);
+    }
+    return max;
+}

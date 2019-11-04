@@ -1,0 +1,19 @@
+/*-----------packageBoxing---------------*/
+
+int packageBoxing(vector<int> pkg, vector<stdvector<int>> boxes) {
+    int min=INT_MAX,res;
+    bool flag=false;
+    sort(pkg.begin(),pkg.end());
+    for (int i=0;i<boxes.size();i++)
+    {
+        sort(boxes[i].begin(),boxes[i].end());
+        if(boxes[i][0]>=pkg[0] && boxes[i][1]>=pkg[1] && boxes[i][2]>=pkg[2] 
+          && boxes[i][0]*boxes[i][1] * boxes[i][2]<min)
+        {
+            min=boxes[i][0]*boxes[i][1] * boxes[i][2];
+            res=i;
+            flag=true;
+        }
+    }
+    return (flag)?res:-1;
+}

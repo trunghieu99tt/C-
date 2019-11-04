@@ -1,0 +1,9 @@
+std::vector<std::string> allLongestStrings(std::vector<std::string> inputArray) {
+    int max=0,i,n=inputArray.size();
+    std::vector<std::string> outputArray;
+    for (i=0;i<n;i++)
+        if(inputArray[i].length()>max) max=inputArray[i].length();
+    for (i=0;i<n;i++)
+        if(inputArray[i].length()==max) outputArray.push_back(inputArray[i]);
+     return outputArray;
+}

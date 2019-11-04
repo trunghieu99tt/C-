@@ -1,0 +1,8 @@
+int isSumOfConsecutive2(int n) {
+        int ans = 0;
+        for(int i=1;i<=n;++i)
+                for(int j=1;j<i;++j)
+                        if((i*(i-1)/2 - j*(j-1)/2) ==n)
+                                ans++;
+        return ans;
+}

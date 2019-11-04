@@ -1,0 +1,11 @@
+int axisAlignedBoundingBox(std::vector<int> x, std::vector<int> y) {
+    int mx=x[0],nx=x[0],my=y[0],ny=y[0];
+    for (int i=1;i<x.size();i++)
+    {
+        mx=min(x[i],mx);
+        nx=max(x[i],nx);
+        my=min(y[i],my);
+        ny=max(y[i],ny);
+    }
+    return (mx-nx)*(my-ny);
+}

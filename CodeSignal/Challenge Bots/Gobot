@@ -1,0 +1,17 @@
+string Choose(string s)
+{
+    if(s=="com") return "commercial";
+    else if(s=="org") return "organization";
+    else if(s=="net") return "network";
+    return "information";
+}
+std::vector<std::string> domainType(std::vector<std::string> domains) {
+    vector<string> result;
+    int i,r=domains.size();
+    for (i=0;i<r;i++)
+    {
+        string s=domains[i].substr(domains[i].find_last_of('.')+1);
+        result.push_back(Choose(s));
+    }
+    return result;
+}
