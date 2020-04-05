@@ -1,6 +1,0 @@
-std::vector<int> fractionMultiplication(std::vector<int> a, std::vector<int> b) {
-    int tu=a[0]*b[0],mau=a[1]*b[1];
-    int tb=__gcd(tu,mau);
-    vector<int> result;
-    return result={tu/tb,mau/tb};
-}

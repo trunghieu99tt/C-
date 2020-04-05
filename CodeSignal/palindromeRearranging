@@ -1,7 +1,0 @@
-bool palindromeRearranging(std::string inputString) {
-    int a[26]={0},n=inputString.length(),i,counter=0;
-    for (i=0;i<n;i++)
-        a[inputString[i]-'a']++;
-    for (i=0;i<=26;i++) if(a[i]>0 && a[i]%2!=0) counter++;
-    return counter<=1;
-}

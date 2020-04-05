@@ -1,1 +1,0 @@
-Codefights. Code for fun!

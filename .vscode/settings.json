@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "xtree": "cpp"
-    }
+        "xtree": "cpp",
+        "iostream": "cpp",
+        "valarray": "cpp"
+    },
+    "python.pythonPath": "C:\\Users\\ASUS\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe"
 }
