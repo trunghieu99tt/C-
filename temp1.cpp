@@ -127,74 +127,30 @@ void extendEuclid(ll a, ll b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
+int doingHomework(std::vector<int> a)
+{
+    int ans = 0, i = 0, n = a.size();
+    while (i < n - 1)
+    {
+        int temp = 0;
+        while (a[i] < a[i + 1] && i < n - 1)
+        {
+            temp += a[i];
+            i++;
+        }
+        if (i > 0 && a[i] > a[i - 1])
+            temp += a[i];
+        whatIs(temp);
+        ans = max(ans, temp);
+        i++;
+    }
+    return ans;
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    int s = 2 * n + 1;
-    int i, j;
-
-    vvi cost(s, vi(s));
-
-    forn(i, s)
-            forn(j, s)
-                cin >>
-        cost[i][j];
-    vi point(2 * n + 1);
-    forn(i, s)
-        point[i] = i;
-    point.eb(0);
-    int ans = INT_MAX, cnt = 0;
-    while (clock() <= 0.98 * CLOCKS_PER_SEC)
-    {
-        shuffle(begin(point) + 1, end(point), rng);
-        int currPassenger = -1, isOk = 1, prev = 0, currAns = 0, passengerCounter = 0, isEnd = false;
-        int prevPoint = 0;
-        for1(i, int(point.size()) - 1)
-        {
-            currAns += cost[prevPoint][point[i]];
-            if (point[i] == 0)
-                break;
-
-            // Nếu không có hành khách nào => cho lên
-            if (currPassenger == -1)
-            {
-                currPassenger = point[i];
-                passengerCounter++;
-            }
-            else
-            {
-                // Nếu đã có khách mà qua 1 điểm chờ nào đó thì chắc chắn chu
-                // trình này sai.
-                if (point[i] <= n)
-                {
-                    isOk = false;
-                    break;
-                }
-                else
-                {
-                    // Nếu là điểm chờ của khách thì cho khách xuống.
-                    if (point[i] == currPassenger + n)
-                        currPassenger = -1;
-                }
-            }
-            prevPoint = point[i];
-            if (currAns > ans)
-            {
-                isOk = false;
-            }
-                }
-
-        // Đưa được tất cả các khách đến địa điểm của mình cũng như không còn khách nào trên xe khi trở về điểm xuất phát.
-        cnt++;
-        if (isOk && passengerCounter == n && currPassenger == -1)
-        {
-            ans = min(ans, currAns);
-        }
-        next_permutation(begin(point) + 1, end(point));
-    }
-    // whatIs(cnt);
-    cout << ans;
+    vector<int> a{1, 2, 3, 5, 1};
+    cout << doingHomework(a);
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/

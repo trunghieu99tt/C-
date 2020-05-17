@@ -129,27 +129,15 @@ void extendEuclid(ll a, ll b)
 
 void solve()
 {
-    int n, m;
-    cin >> n >> m;
-    int i, j;
-    vi l(m);
-    forn(i, m)
-            cin >>
-        l[i];
-    vi colored(n + 5);
-
-    while (clock() <= 1.8 * CLOCKS_PER_SEC)
+    int prev = 1;
+    cout << prev << " ";
+    for (int i = 2; i <= 100; i++)
     {
-        forn(i, m)
-        {
-            int x = -1;
-            while (1)
-            {
-                x = rand() % n;
-                if (x + l[i] < n)
-                    break;
-            }
-        }
+        string s = to_string(i);
+        sort(all(s));
+        int curr = i + (s[0] - '0') * (s.back() - '0');
+        cout << curr << " ";
+        prev = curr;
     }
 }
 
