@@ -97,14 +97,14 @@ ll binPow(ll a, ll b)
     return x % MOD;
 }
 
-ll inverserEuler(ll n) { return binPow(n, MOD - 2); }
+ll inverseEuler(ll n) { return binPow(n, MOD - 2); }
 
 ll C(ll k, ll n)
 {
     vll f(n + 1, 1);
     for (ll i = 2; i <= n; i++)
         f[i] = (f[i - 1] * i) % MOD;
-    return (f[n] * ((inverserEuler(f[k]) * inverserEuler(f[n - k])) % MOD) % MOD) % MOD;
+    return (f[n] * ((inverseEuler(f[k]) * inverseEuler(f[n - k])) % MOD) % MOD) % MOD;
 }
 
 //Extend Euclid: ax + by = c;
@@ -127,88 +127,50 @@ void extendEuclid(ll a, ll b)
 
 /*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
 
-int n;
-map<int, int> visited;
-vvi cost(50, vi(50));
-vi path;
-int temp = 0, ans = INT_MAX, passengerCounter = 0, currPassenger = -1;
-
-void backtrack(int u)
+bool check(string s)
 {
-    for (int v = 0; v < 2 * n + 1; v++)
-    {
-        if (v == 0)
-        {
-            cout << "Path: ";
-            for (auto i : path)
-                cout << i << " ";
-            cout << endl;
-            if (passengerCounter == n)
-            {
-                temp += cost[u][v];
-                ans = min(ans, temp);
-            }
-        }
-        else
-        {
-            if (!visited[v])
-            {
-                path.eb(v);
-                visited[v] = 1;
-                temp += cost[u][v];
-                int isPlus = 0, isChange = 0, saveCurr = currPassenger, isOk = 1;
-
-                if (v <= n)
-                {
-                    if (currPassenger == -1)
-                    {
-                        passengerCounter++;
-                        currPassenger = v;
-                        isPlus = 1;
-                        isChange = 1;
-                    }
-                    else
-                    {
-                        isOk = 0;
-                    }
-                }
-                else
-                {
-                    if (currPassenger != -1 && v == currPassenger + n)
-                    {
-                        currPassenger = -1;
-                        isChange = 1;
-                    }
-                }
-
-                if (isOk)
-                {
-                    if (temp < ans)
-                        backtrack(v);
-                }
-
-                visited[v] = 0;
-                temp -= cost[u][v];
-                if (isChange)
-                    currPassenger = saveCurr;
-                if (isPlus)
-                    passengerCounter--;
-                path.pop_back();
-            }
-        }
-    }
+    sort(all(s));
+    return s.back() == '0';
 }
 
 void solve()
 {
-    cin >> n;
-    int i, j;
-    forn(i, 2 * n + 1)
-            forn(j, 2 * n + 1)
-                cin >>
-        cost[i][j];
-    backtrack(0);
-    cout << ans;
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, k, ans = 0;
+        cin >> n >> k;
+        string s;
+        cin >> s;
+        int i = 0;
+        if (check(s))
+        {
+            int cnt = 1, i = k + 1;
+            while (i < n)
+            {
+               
+                cnt++;
+                i += k + 1;
+            }
+            cout << cnt << endl;
+        }
+        else
+        {
+            while (i < s.size())
+            {
+                int cnt = 0;
+                while (i < s.size() && s[i] == '0')
+                {
+                    cnt++;
+                    i++;
+                }
+                ans += cnt / (k + 1);
+                i++;
+            }
+            cout << ans << endl;
+        }
+    }
 }
 
 /*--------------------------------- MAIN FUNC ---------------------------------------------------*/
