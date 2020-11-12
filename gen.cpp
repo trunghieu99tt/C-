@@ -23,9 +23,6 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vi> vvi;
-typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 
 /*---------------------------------POLICY-BASED-DATA STRUCTURES -------------------------------*/
@@ -37,17 +34,6 @@ ll SEED = ll(new ll);
 ll RANDOM = TIME ^ SEED;
 ll MOD = (int)1e9 + 7;
 ll MUL = (int)1e6 + 3;
-
-// optionn 1 (slower - don't know why)
-//struct chash{
-//  ll operator()(ll x) const {return std::hash<ll>{}((x^RANDOM)%MOD * MUL);}
-//};
-
-// Option 2
-struct chash
-{
-    int operator()(int x) const { return x ^ RANDOM; }
-};
 
 // Option 3 (fastest)
 struct custom_hash
@@ -69,18 +55,10 @@ struct custom_hash
 };
 
 // using pair as key
-
 struct chash_key
 {
     int operator()(pii x) const { return x.first * 31 + x.second; }
 };
-
-// Set up trie
-typedef trie<string, null_type, trie_string_access_traits<>, pat_trie_tag, trie_prefix_search_node_update> u_trie;
-
-// Set up Red-Black Tree
-template <typename T>
-using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 /*-----------------------------------USEFUL FUNCS -----------------------------------------------*/
 
@@ -97,79 +75,22 @@ ll binPow(ll a, ll b)
     return x % MOD;
 }
 
-ll inverseEuler(ll n) { return binPow(n, MOD - 2); }
+/*--------------------------------- FUNC -------------------------------------------*/
 
-ll C(ll k, ll n)
+int random(int a, int b)
 {
-    vll f(n + 1, 1);
-    for (ll i = 2; i <= n; i++)
-        f[i] = (f[i - 1] * i) % MOD;
-    return (f[n] * ((inverseEuler(f[k]) * inverseEuler(f[n - k])) % MOD) % MOD) % MOD;
-}
-
-//Extend Euclid: ax + by = c;
-ll x, y;
-
-void extendEuclid(ll a, ll b)
-{
-    if (b == 0)
-    {
-        x = 1;
-        y = 0;
-        return;
-    }
-    extendEuclid(b, a % b);
-    ll x1 = y, y1 = x - (a / b) * y;
-    x = x1;
-    y = y1;
-}
-// nghiem : x + (b/d)*k, y - (a/d) * k;
-
-/*--------------------------------- USER'S SOLVE FUNC -------------------------------------------*/
-
-bool check(string s)
-{
-    sort(all(s));
-    return s.back() == '0';
+    return a + rand() % (b - a + 1);
 }
 
 void solve()
 {
-    int t;
-    cin >> t;
-    while (t--)
+    int n = 20;
+    cout << n << endl;
+    for (int i = 0; i <= n; i++)
     {
-        int n, k, ans = 0;
-        cin >> n >> k;
-        string s;
-        cin >> s;
-        int i = 0;
-        if (check(s))
-        {
-            int cnt = 1, i = k + 1;
-            while (i < n)
-            {
-               
-                cnt++;
-                i += k + 1;
-            }
-            cout << cnt << endl;
-        }
-        else
-        {
-            while (i < s.size())
-            {
-                int cnt = 0;
-                while (i < s.size() && s[i] == '0')
-                {
-                    cnt++;
-                    i++;
-                }
-                ans += cnt / (k + 1);
-                i++;
-            }
-            cout << ans << endl;
-        }
+        int x = random(1, 500000);
+        int y = random(1, 500000);
+        cout << min(x, y) << " " << max(x, y) << endl;
     }
 }
 
@@ -180,7 +101,7 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie();
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
+    freopen("input.txt", "w", stdout);
     //freopen("output.txt","w",stdout);
 #endif
     solve();

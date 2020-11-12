@@ -1,5 +1,4 @@
-2 
-5 3 
-2 1 5 6 3
-7 5 
-2 7 9 5 8 7 4
+var a = "${{{{";
+var b = `$}}}}`;
+print `${a} +fdsfdsfdsfdsfd ${b} = bullshit`;
+end.
