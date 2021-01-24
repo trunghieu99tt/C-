@@ -1,30 +1,34 @@
-// slow solution for finding second smallest element
 #include <bits/stdc++.h>
 using namespace std;
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int &x : a)
+    int N;
+    cin>>N;
+    int C[101][101];
+    while(N--)
     {
-        cin >> x;
-    }
-    for (int x : a)
-    {
-        int count_smaller = 0;
-        for (int y : a)
+        int a,b;
+        cin>>a>>b;
+        int token;
+        memset(C,0,sizeof(C));
+        for (int i=1; i<=a; i++)
         {
-            if (y < x)
+            for (int j=1; j<=b; j++)
             {
-                ++count_smaller;
+                cin>>token;
+                C[0][j]+=token;
+                C[i][0]+=token;
             }
         }
-        if (count_smaller == 1)
+        int c;
+        for (int i=1; i<=a; i++)
         {
-            cout << x;
-            return 0;
+            for (int j=1; j<=b; j++)
+            {
+                c=min(1,C[0][j]+C[i][0]);
+                cout<<c<<' ';
+            }
+            cout<<endl;
         }
     }
-    assert(false);
 }

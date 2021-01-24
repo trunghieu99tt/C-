@@ -1,104 +1,91 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/trie_policy.hpp>
-#include <ext/pb_ds/tag_and_trait.hpp>
 
-using namespace __gnu_pbds;
 using namespace std;
 
-/*--------------------------------- RANDOM -----------------------------------------*/
+using pii = pair<int, int>;
 
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-// use shuffle(all(x), rng)
-
-/*--------------------------------- USER'S DEFINE -----------------------------------------*/
-
-#define forn(i, n) for (int i = 0; i < n; ++i)
-#define for1(i, n) for (int i = 1; i <= n; ++i)
-#define eb emplace_back
-#define all(x) (x).begin(), (x).end()
-#define whatIs(x) cerr << "Line " << __LINE__ << ": " << #x << " = " << (x) << endl
-
-/*--------------------------------- USER'S TYPEDEF -----------------------------------------*/
-
-typedef long long ll;
-typedef vector<int> vi;
-typedef pair<int, int> pii;
-
-/*---------------------------------POLICY-BASED-DATA STRUCTURES -------------------------------*/
-
-// Set up chash for hash table
-
-ll TIME = chrono::high_resolution_clock::now().time_since_epoch().count();
-ll SEED = ll(new ll);
-ll RANDOM = TIME ^ SEED;
-ll MOD = (int)1e9 + 7;
-ll MUL = (int)1e6 + 3;
-
-// Option 3 (fastest)
-struct custom_hash
+bool valid(int r, int c)
 {
-    static uint64_t splitmix64(uint64_t x)
-    {
-        // http://xorshift.di.unimi.it/splitmix64.c
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-
-    size_t operator()(uint64_t x) const
-    {
-        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-
-// using pair as key
-struct chash_key
-{
-    int operator()(pii x) const { return x.first * 31 + x.second; }
-};
-
-/*-----------------------------------USEFUL FUNCS -----------------------------------------------*/
-
-ll binPow(ll a, ll b)
-{
-    ll x = 1, y = a;
-    while (b)
-    {
-        if (b & 1)
-            x = (x * y) % MOD;
-        y = (y * y) % MOD;
-        b >>= 1;
-    }
-    return x % MOD;
+    return r >= 0 && r < 8 && c > 0 && c <= 8;
 }
 
-/*--------------------------------- FUNC -------------------------------------------*/
-
-gp_hash_table<string, int, custom_hash> visited;
-
-void solve()
-{
-    int n;
-    vector<vector<int>> a(n, vector<int>(n));
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j <= i; j++)
-            cin >> a[i][j];
-    
-}
-
-/*--------------------------------- MAIN FUNC ---------------------------------------------------*/
+vector<int> dr = {-1, -1, 1, 1};
+vector<int> dc = {1, -1, 1, -1};
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie();
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    //freopen("output.txt","w",stdout);
-#endif
-    solve();
+    // freopen("input.txt", "r", stdin);
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        char x, y;
+        int a, b;
+        cin >> x >> a >> y >> b;
+        int xx = x - 'A';
+        int yy = y - 'A';
+        queue<pii> q;
+        q.push({xx, a});
+        map<pii, int> cnt;
+        map<pii, pii> par;
+
+        int f = 0;
+        while (!q.empty())
+        {
+            auto u = q.front();
+            q.pop();
+            int r, c;
+            tie(r, c) = u;
+
+            if (r == yy && c == b)
+            {
+                f = 1;
+                cout << cnt[{r, c}] << " ";
+                vector<pii> ans;
+                ans.emplace_back(r, c);
+                while (r != xx && c != a)
+                {
+                    int tR = par[{r, c}].first;
+                    int tC = par[{r, c}].second;
+                    r = tR;
+                    c = tC;
+                    ans.emplace_back(r, c);
+                }
+                reverse(begin(ans), end(ans));
+                for (auto i : ans)
+                {
+                    cout << char(i.first + 'A') << " " << i.second << " ";
+                }
+                cout << endl;
+                break;
+            }
+
+            if (cnt[u] >= 3)
+                continue;
+            for (int i = 0; i < 4; i++)
+            {
+                int tempR = r;
+                int tempC = c;
+                while (valid(tempR, tempC))
+                {
+                    tempR += dr[i];
+                    tempC += dc[i];
+                    if (valid(tempR, tempC))
+                    {
+                        if ((cnt[{tempR, tempC}] == 0) || cnt[u] + 1 < cnt[{tempR, tempC}])
+                        {
+                            cnt[{tempR, tempC}] = cnt[u] + 1;
+                            par[{tempR, tempC}] = u;
+                            q.push({tempR, tempC});
+                        }
+                    }
+                }
+            }
+        }
+        if (!f)
+            cout << "Impossible" << endl;
+    }
     return 0;
 }

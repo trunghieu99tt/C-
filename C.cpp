@@ -77,21 +77,8 @@ ll binPow(ll a, ll b)
 
 /*--------------------------------- FUNC -------------------------------------------*/
 
-bool check(string s, string t)
-{
-    if (t.size() < 2)
-        return 0;
-    int idx = 0, i = 0;
-    while (i < s.size())
-    {
-        if (s[i] == t[idx])
-            idx++;
-        if (idx >= t.size())
-            return 1;
-        i++;
-    }
-    return idx >= t.size();
-}
+int dr[] = {0, 0, -1, 1};
+int dc[] = {-1, 1, 0, 0};
 
 void solve()
 {
@@ -99,35 +86,35 @@ void solve()
     cin >> t;
     while (t--)
     {
-        int n, q;
-        cin >> n >> q;
-        string s;
-        cin >> s;
-        while (q--)
+        int n, m;
+        cin >> n >> m;
+        vector<vector<int>> a(n, vector<int>(m));
+        vector<vector<int>> visited(n, vector<int>(m, 0));
+        for (auto &i : a)
+            for (auto &j : i)
+                cin >> j;
+        forn(i, n)
         {
-            int l, r;
-            cin >> l >> r;
-            l--;
-            r--;
-            string temp = s.substr(l, r - l + 1);
-            bool f = 0;
-            for (int i = 0; i < temp.size(), f = 0; i++)
+            forn(j, m)
             {
-                for (char j = '0'; j <= '1'; j++)
+                if (!visited[i][j])
                 {
-                    string temp1 = temp;
-                    temp1.insert(begin(temp) + i, j);
-                    whatIs(temp1);
-                    if (check(s, temp1))
+                    queue<pii> q;
+                    q.push({i, j});
+                    visited[i][j] = 1;
+                    while (!q.empty())
                     {
-                        cout << "YES\n";
-                        f = 1;
-                        break;
+                        auto u = q.front();
+                        for(int k = 0;k <4;k++)
+                        {
+                            int x = u.first + dr[k], y = u.second + dc[k];
+                            if(x >= 0 && y >= 0 && x < n && y < n && a[x][y] == a[u.first][u.second]){
+                                q.push()
+                            }
+                        }
                     }
                 }
             }
-            if (!f)
-                cout << "YES\n";
         }
     }
 }

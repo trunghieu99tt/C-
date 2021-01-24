@@ -2,86 +2,40 @@
 
 using namespace std;
 
-map<string, string> var;
-string s;
-int lim = 1e4;
-string get(int l, int r)
+long long binPow(long long a, long long b, long long mod)
 {
-    if (s[l] == '"')
+    long long x = 1;
+    long long y = a;
+    while (b)
     {
-        return s.substr(l + 1, r - l - 2);
+        if (b & 1)
+            x = (x * y) % mod;
+        y = (y * y) % mod;
+        b >>= 1;
     }
-    if (s[l] != '`')
-    {
-        return var[s.substr(l, r - l)];
-    }
-    string res;
-    for (int i = l + 1; i + 1 < r; ++i)
-    {
-        if (s[i] != '$' || (s[i] == '$' && s[i + 1] != '{'))
-        {
-            res.push_back(s[i]);
-            if (res.length() > lim)
-                return res = "?";
-        }
-        else
-        {
-            int sum = 1;
-            int j = i + 2;
-            for (; sum > 0; ++j)
-            {
-                if (s[j] == '{')
-                    sum++;
-                if (s[j] == '}')
-                    sum--;
-                if (sum == 0)
-                    break;
-            }
-            res += get(i + 2, j);
-            if (res.length() > lim || res.back() == '?')
-            {
-                return res = "?";
-            }
-            i = j;
-        }
-    }
-    if (res.length() > lim || res.back() == '?')
-        return res = "?";
-    return res;
+    return x % mod;
 }
 
 int main()
 {
+
+    ios::sync_with_stdio(false);
+    cin.tie();
     freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    for (; getline(cin, s) && s != "end.";)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        if (s[0] == 'e')
-            break;
-        while (s.back() != ';')
+        string s;
+        cin >> s;
+        int n = s.size();
+        long long m = 0;
+        for (int i = 0; i < n; i++)
         {
-            s.pop_back();
+            m += (s[i] - '0') * binPow(2, n - i - 1, 5);
+            m %= 5;
         }
-        if (s.front() == 'v')
-        {
-            string name, val;
-            int i = 4;
-            for (; s[i] != ' '; ++i)
-            {
-                name.push_back(s[i]);
-            }
-            var[name] = get(i + 3, s.size() - 1);
-        }
-        else
-        {
-            const string &res = get(6, s.size() - 1);
-            lim -= res.size();
-            cout << res << '\n';
-            assert(lim >= 0);
-        }
+        cout << (m == 0) ? "Yes\n" : "No\n";
     }
     return 0;
 }
